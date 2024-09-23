@@ -1,0 +1,88 @@
+1.
+
+fn main () {
+    let a: int = 1;
+    print(a);
+}
+
+2.
+
+fn add (x: int, y: int) -> int {
+    return x + y;
+}
+
+fn main () {
+    let a: int = 1;
+    let b: int = 2;
+    let c: int = add(a, b);
+    print(c);
+}
+
+3.
+
+fn main () {
+    let s: set = [1, 2, 3];
+    print(set);
+}
+
+4.
+
+fn set_union(x: set, y: set) -> set {
+    return x + y;
+}
+
+fn main () {
+    let s1: set = [1, 2, 3];
+    let s2: set = [2, 3, 4];
+    print(set_union(s1, s2));
+}
+
+5.
+
+fn add(x: int, y: int) -> int {
+    return x + y;
+}
+
+fn add(x: set, y: set) -> set {
+    return x + y;
+}
+
+fn main () {
+    let s1: set = [1, 2, 3];
+    let s2: set = [2, 3, 4];
+    let a: int = 1;
+    let b: int = 2;
+    print(add(s1, s2));
+    print(add(a, b));
+}
+
+6.
+
+fn main () {
+    let s1: set = [1, 2, 4];
+    let s2: set = [2, 3, 4];
+    let a: int = 1;
+    let b: int = 3;
+    if (a > b) {
+        print(s1 + s2);
+    }
+    else (a < b) {
+        print(s1 * s2);
+    }
+    for i in 1..100 {
+        print(i);
+    }
+}
+
+NO: описание операций
+
+- Для множеств:
+
++ - объединение;
+* - пересечение
+- - разность;
+/ - симметрическая разность;
+
+- Для целых чисел все операции являются таковыми из алгебры.
+
+NO2: синтаксис DUST на 99.9% копирует синтаксис RUST.
