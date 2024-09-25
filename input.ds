@@ -26,4 +26,5 @@ fn main () {
     else {
         print(a);
     }
+    a, b = c, d;
 }
