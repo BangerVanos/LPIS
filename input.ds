@@ -32,4 +32,5 @@ fn main () {
     else {
         println(a);
     }
+    a, b = c, d;
 }
