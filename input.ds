@@ -6,24 +6,30 @@ fn add(x: set, y: set) -> set {
     return x + y;
 }
 
+fn sub(x: set, y: set) -> set {
+    return x - y;
+}
+
 fn main () {
     let s1: set = [1, 2, 3];
-    let s2: set = [2, 3, 4];
+    let s2: set = [2, 3, 4];    
     let a: int = 1;
     let b: int = 2;
     let c: int = a + b;
-    print(add(s1, s2));
-    print(add(a, b));
+    println(add(s1, s2));    
+    println(sub(s1, s2));
+    println(s1 * s2);
+    println(add(a, b));              
     for i in 1..10 {
-        print(i);
+        println(i);
     }
     if (a > b) {
-        print(a);
+        println(a);
     }
     else if (a < b) {
-        print(b);
+        println(b);
     }
     else {
-        print(a);
+        println(a);
     }
 }
