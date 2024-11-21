@@ -24,7 +24,7 @@ class DustVisitor(DustGrammarVisitor):
         self.functions[name][signature] = return_type
     
     def _add_error(self, ctx, error: str) -> None:
-        self._errors.append(f'Line {ctx.start.line} Column {ctx.start.column} - {error.capitalize()}')
+        self._errors.append(f'\033[31;1mSemantic error\033[0m: Line {ctx.start.line} Column {ctx.start.column} - {error.capitalize()}')
     
     def _add_tabs(self):
         return ' ' * 4 * self._tabs
@@ -93,7 +93,9 @@ class DustVisitor(DustGrammarVisitor):
 
         # Проверяем, что количество переменных совпадает с количеством выражений
         if len(var_names) != len(expr_values):
-            self._add_error(ctx, f"Mismatch between the number of variables and expressions.")
+            error_text = (f"Mismatch between the number of variables and expressions: "
+                          f"{len(var_names)} variables and {len(expr_values)} expressions.")
+            self._add_error(ctx, error_text)
 
         for var_name, expr_value in zip(var_names, expr_values):
             # # Проверяем, что переменная еще не объявлена
@@ -113,7 +115,7 @@ class DustVisitor(DustGrammarVisitor):
         exprs = [self.visit(expr) for expr in ctx.expr()]
         for id_ in ids:
             if id_ not in self.symbol_table:
-                self._add_error(ctx, f"Variable {id_} not defined.")
+                self._add_error(ctx, f"Variable \'{id_}\' is not defined.")
         self.output.append(f"{self._add_tabs()}{', '.join(ids)} = {', '.join(exprs)}")
 
     def visitIf_stmt(self, ctx: DustGrammarParser.If_stmtContext):
@@ -156,7 +158,7 @@ class DustVisitor(DustGrammarVisitor):
         
         # Проверка на уже существующую переменную
         if loop_var in self.symbol_table:
-            raise self._add_error(ctx, f"Variable {loop_var} already defined.")
+            raise self._add_error(ctx, f"Variable \'{loop_var}\' is already defined.")
         
         # Обработка выражения range
         range_expr = self.visit(ctx.range_())  # Получаем диапазон целиком
@@ -173,9 +175,10 @@ class DustVisitor(DustGrammarVisitor):
 
     def visitWhile_stmt(self, ctx: DustGrammarParser.While_stmtContext):
         cond = self.visit(ctx.expr())
-        self.output.append(f"while {cond}:")
+        self.output.append(f"{self._add_tabs()}while {cond}:")
         self._tabs += 1
-        self.visit(ctx.stmt())
+        for stmt in ctx.stmt():
+            self.visit(stmt)
         self._tabs -= 1
 
     def visitPrint_fn(self, ctx):
@@ -254,6 +257,7 @@ class DustVisitor(DustGrammarVisitor):
         # Проверяем, есть ли вообще такая функция
         if fn_name not in self.functions:
             self._add_error(ctx, f"Function \'{fn_name}\' is not defined.")
+            return ""
         
         # Проверяем, есть ли такая функция
         if tuple(arg_types) not in self.functions[fn_name]:

@@ -37,31 +37,15 @@ class WrappedSet:
     def __repr__(self) -> str:
         return self.__str__()        
 
-def add(x: int, y: int):
-    return (x + y)
-
-def add(x: set, y: set):
-    return (x + y)
-
-def sub(x: set, y: set):
-    return (x - y)
-
 if __name__ == '__main__':
-    s1 = WrappedSet([1, 2, 3])
+    s1 = WrappedSet([1, 2, 4])
     s2 = WrappedSet([2, 3, 4])
     a = 1
-    b = 2
-    c = (a + b)
-    print(add(s1, s2))
-    print(sub(s1, s2))
-    print((s1 * s2))
-    print(add(a, b))
-    for i in range(1, 10):
-        print(i)
+    b = 3
     if (a > b):
-        print(a)
-    elif (a < b):
-        print(b)
+        print((s1 + s2))
     else:
-        print(a)
+        print((s1 * s2))
+    for i in range(1, 5):
+        print(i, end='')
 
